@@ -1,14 +1,12 @@
 <template>
   <v-app>
+    <c-header />
     <v-main>
-      <c-header />
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <c-footer />
   </v-app>
 </template>
 
@@ -17,3 +15,8 @@ export default {
   name: 'DefaultLayout',
 }
 </script>
+<style lang="scss" scoped>
+::v-deep .v-main {
+  margin-top: 45px;
+}
+</style>

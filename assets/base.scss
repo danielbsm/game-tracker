@@ -1,3 +1,26 @@
+html {
+  font-weight: 300 !important;
+}
+
 .v-application {
   background: linear-gradient(45deg, #0b1641 0%, #c70160 100%) !important;
+}
+
+.container {
+  max-width: 1212px !important;
+  padding: 0 8px !important;
+}
+
+input::placeholder {
+  color: #fff !important;
+}
+
+.v-application .accent-text {
+  color: transparent !important;
+}
+
+.v-btn.v-size--default {
+  font-size: 1.8rem !important;
+  text-transform: none !important;
+  font-weight: 100 !important;
 }

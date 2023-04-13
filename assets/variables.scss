@@ -2,3 +2,14 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+$toolbar-content-padding-x: 0;
+$material-dark: (
+  'text-fields': (
+    'outlined': transparent,
+    'outlined-hover': transparent,
+    'filled': transparent,
+    'filled-hover': transparent,
+  ),
+);
+
+$font-size-root: 62.5%;
