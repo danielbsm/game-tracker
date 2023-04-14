@@ -13,3 +13,13 @@ $material-dark: (
 );
 
 $font-size-root: 62.5%;
+$text-field-filled-full-width-outlined-slot-min-height: 50px;
+$border-radius-root: 8px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 1060px,
+  xl: 1200px,
+);

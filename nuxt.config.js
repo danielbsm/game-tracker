@@ -22,7 +22,7 @@ export default {
   css: ['~/assets/base.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/axios'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -39,6 +39,14 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    [
+      'vue-toastification/nuxt',
+      {
+        position: 'top-right',
+        pauseOnFocusLoss: false,
+        pauseOnHover: false,
+      },
+    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -66,6 +74,10 @@ export default {
         },
       },
     },
+  },
+
+  publicRuntimeConfig: {
+    API_BASE_URL: process.env.API_BASE_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
