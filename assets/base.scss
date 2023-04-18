@@ -1,4 +1,5 @@
 html {
+  font-size: 62.5%;
   font-weight: 100 !important;
 }
 
@@ -14,6 +15,9 @@ html {
 input {
   font-weight: 100 !important;
   color: #fff !important;
+  @media screen and (max-width: 650px) {
+    font-size: 1.4rem !important;
+  }
 }
 
 .v-application .accent-text {
@@ -33,6 +37,12 @@ input {
   .v-icon {
     color: #dadada !important;
   }
+  @media screen and (max-width: 650px) {
+    margin: 0 12px 0 0 !important;
+    i {
+      font-size: 1.8rem !important;
+    }
+  }
 }
 
 .v-application .accent--text {
@@ -41,5 +51,26 @@ input {
 }
 
 .v-menu__content {
-  margin-top: -4px;
+  margin-top: -5px;
+  .v-list-item {
+    min-height: 35px !important;
+  }
+  .v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover)
+    .v-btn__content {
+    opacity: 1 !important;
+    justify-content: start !important;
+  }
+
+  @media screen and (max-width: 1197px) {
+    margin-left: 4px;
+    @media screen and (max-width: 400px) {
+      max-width: 122px !important;
+      button {
+        max-width: 122px !important;
+        span {
+          font-size: 1.2rem !important;
+        }
+      }
+    }
+  }
 }

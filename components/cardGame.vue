@@ -1,47 +1,39 @@
 <template>
   <v-layout>
-    <v-row v-if="showCards" class="ma-0 justify-space-between">
-      <v-col
+    <v-row v-if="showCards" class="ma-0 justify-space-between box-cards">
+      <v-card
         v-for="(product, index) in products"
         :key="index"
-        cols="12"
-        xs="12"
-        sm="12"
-        md="6"
-        lg="4"
-        :class="isMobile && 'px-0'"
+        color="primary"
+        class="card"
       >
-        <v-card color="primary" class="custom-elevation">
-          <img
-            width="100%"
-            :src="getImage(product.steamAppID)"
-            :alt="product.title"
-            :height="!isMobile ? 147 : 95"
-          />
-          <v-card-title class="col-11">{{ product.title }}</v-card-title>
-          <v-card-actions class="pa-4" :class="isMobile && 'pt-0'">
-            <v-btn
-              class="text-uppercase font-weight-bold px-5"
-              :class="isMobile && 'font-btn-mobile'"
-              color="secondary"
-              :height="isMobile ? 30 : 39"
-              :width="isMobile ? 92 : 116"
-              >Detalhes</v-btn
-            >
-            <v-row class="ma-0 justify-end">
-              <div class="price">
-                <div class="old">
-                  $ {{ product.normalPrice | formatMoney() }}
-                </div>
-                <div class="new">$ {{ product.salePrice | formatMoney() }}</div>
-              </div>
-              <div class="discount">
-                -{{ product.savings | formatPercentage }}%
-              </div>
-            </v-row>
-          </v-card-actions>
-        </v-card>
-      </v-col>
+        <img
+          width="100%"
+          :src="getImage(product.steamAppID)"
+          :alt="product.title"
+          :height="!isMobile ? 147 : 95"
+        />
+        <v-card-title class="col-12">{{ product.title }}</v-card-title>
+        <v-card-actions class="pa-4" :class="isMobile && 'pt-0'">
+          <v-btn
+            class="text-uppercase font-weight-bold px-5"
+            :class="isMobile && 'font-btn-mobile'"
+            color="secondary"
+            :height="isMobile ? 30 : 39"
+            :width="isMobile ? 92 : 116"
+            >Detalhes</v-btn
+          >
+          <v-row class="ma-0 justify-end">
+            <div class="price">
+              <div class="old">$ {{ product.normalPrice | formatMoney() }}</div>
+              <div class="new">$ {{ product.salePrice | formatMoney() }}</div>
+            </div>
+            <div class="discount">
+              -{{ product.savings | formatPercentage }}%
+            </div>
+          </v-row>
+        </v-card-actions>
+      </v-card>
     </v-row>
     <v-row v-else class="ma-0">
       <not-found />
@@ -117,10 +109,10 @@ export default {
       products.sort((a, b) => {
         const sortA = this.order === 'lowestPrice' ? Number(a[prop]) : a[prop]
         const sortB = this.order === 'lowestPrice' ? Number(b[prop]) : b[prop]
-        if (sortA > sortB) {
+        if (sortA < sortB) {
           return -1
         }
-        if (sortA < sortB) {
+        if (sortA > sortB) {
           return 1
         }
         return 0
@@ -150,32 +142,15 @@ export default {
 ::v-deep .v-card__title {
   font-size: 2.2rem !important;
   font-weight: 300 !important;
-  @media screen and (max-width: 768px) {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 7px;
+  @media screen and (max-width: 650px) {
     font-size: 1.8rem !important;
+    white-space: normal;
   }
-}
-.price {
-  display: flex;
-  flex-direction: column;
-  .old {
-    font-size: 1.2rem;
-    font-weight: 100;
-    text-align: end;
-    text-decoration: line-through;
-    @media screen and (max-width: 768px) {
-      font-size: 1rem;
-    }
-  }
-  .new {
-    font-size: 1.8rem;
-    font-weight: 700;
-    @media screen and (max-width: 768px) {
-      font-size: 1.4rem;
-    }
-  }
-}
-.custom-elevation {
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 }
 
 .discount {
@@ -189,12 +164,52 @@ export default {
   margin-left: 10px;
   font-size: 1.8rem;
   font-weight: 700;
-  @media screen and(max-width: 400px) {
+  @media screen and(max-width: 768px) {
     width: 64px;
+    height: 31px;
     font-size: 1.4rem;
   }
 }
 .font-btn-mobile {
   font-size: 1.4rem !important;
+}
+.box-cards {
+  margin-top: 37px !important;
+  gap: 20px;
+  .card {
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+    .price {
+      display: flex;
+      flex-direction: column;
+      .old {
+        font-size: 1.2rem;
+        font-weight: 100;
+        text-align: end;
+        text-decoration: line-through;
+        @media screen and (max-width: 768px) {
+          font-size: 1rem;
+        }
+      }
+      .new {
+        font-size: 1.8rem;
+        font-weight: 700;
+        @media screen and (max-width: 768px) {
+          font-size: 1.4rem;
+        }
+      }
+    }
+    @media screen and (max-width: 1195px) {
+      max-width: calc(50% - 10px);
+    }
+    @media screen and (max-width: 643px) {
+      max-width: 100%;
+      min-width: 304px;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    margin-top: 23px !important;
+  }
 }
 </style>

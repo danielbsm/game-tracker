@@ -4,8 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - game-tracker',
-    title: 'game-tracker',
+    title: 'Game Tracker',
     htmlAttrs: {
       lang: 'pt-br',
     },

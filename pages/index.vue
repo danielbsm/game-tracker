@@ -1,24 +1,23 @@
 <template>
   <v-layout column>
-    <section :class="isMobile && 'text-center'">
+    <section class="page-index">
       <span class="text-offers">Ofertas </span>
-      <v-row class="ma-0 justify-space-between">
-        <div :class="isMobile && 'd-flex align-end'">
+      <v-row class="box-filters ma-0 justify-space-between">
+        <div class="box-search">
           <v-text-field
             v-model="search"
             background-color="primary"
             placeholder="Procurar"
             prepend-inner-icon="mdi-magnify"
             outline
-            class="input-search"
             color="accent"
             clearable
             solo
             hide-details
           />
         </div>
-        <div :class="isMobile && 'd-flex flex-column'">
-          <span class="text-sortBy" :class="!isMobile && 'mr-5'"
+        <div class="fill-width box-sort">
+          <span class="text-sortby" :class="!isMobile && 'mr-5'"
             >Ordenar por:</span
           >
           <v-menu rounded="t-0" offset-y transition="slide-y-transition">
@@ -29,7 +28,6 @@
                 height="50"
                 width="43vw"
                 max-width="180px"
-                :class="isMobile && 'font-order-by'"
                 v-on="on"
               >
                 {{ orderSelected.title }} <v-icon>mdi-chevron-down</v-icon>
@@ -38,12 +36,15 @@
             <v-list color="primary">
               <v-list-item v-for="item in sortBy" :key="item.type" class="pa-0">
                 <v-btn
-                  :class="isMobile && 'font-order-by'"
-                  height="50"
-                  width="43vw"
+                  height="35"
+                  width="100%"
                   max-width="180px"
                   text
                   plain
+                  :class="
+                    item.type === orderSelected.type &&
+                    'secondary--text font-weight-bold'
+                  "
                   @click="order(item)"
                 >
                   {{ item.title }}
@@ -71,7 +72,7 @@
             height="50"
             :loading="loading"
             :disabled="loading"
-            @click="loadingMore"
+            @click="getProducts"
             >Carregar mais</v-btn
           >
         </v-row>
@@ -110,7 +111,7 @@ export default {
         type: 'savings',
       },
       products: [],
-      page: 1,
+      page: 0,
     }
   },
   computed: {
@@ -121,27 +122,14 @@ export default {
       )
     },
   },
-  async created() {
-    await this.$gameTrackerApi
-      .get('deals?pageNumber=1&pageSize=12&storeID=1&onSale=1&AAA=1')
-      .then(({ data }) => {
-        console.log(data)
-        this.products = data
-      })
-      .catch((error) => {
-        this.$toast.error(
-          'Não foi possível realizar a solicitação, por favor tente novamente mais tarde'
-        )
-        throw new Error(error)
-      })
+  created() {
+    this.getProducts()
   },
   methods: {
     order(sortBy) {
       this.orderSelected = sortBy
-      console.log(sortBy)
-      console.log('orderSelected', this.orderSelected)
     },
-    async loadingMore() {
+    async getProducts() {
       this.page += 1
       this.loading = true
       await this.$gameTrackerApi
@@ -160,27 +148,77 @@ export default {
         .finally(() => {
           this.loading = false
         })
-      console.log(this.products)
     },
   },
 }
 </script>
 <style lang="scss" scoped>
-.input-search {
-  max-width: 380px;
-  width: 50vw;
+::v-deep .v-input__control {
+  max-width: 380px !important;
+  min-width: 174px !important;
+  min-height: 50px !important;
+  @media screen and (max-width: 400px) {
+    min-height: 36px !important;
+  }
 }
+.page-index {
+  @media screen and (max-width: 650px) {
+    text-align: center;
+  }
+  .text-offers {
+    font-size: 2.6rem;
+    font-weight: 300;
+    font-style: normal;
+  }
+  .box-filters {
+    width: 100%;
 
-.text-offers {
-  font-size: 3.6rem;
-  font-weight: 300;
-  font-style: normal;
-}
-.text-sortBy {
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-.font-order-by {
-  font-size: 1.4rem !important;
+    .box-search {
+      width: calc(50% - 10px);
+      @media screen and (max-width: 650px) {
+        display: flex;
+        align-items: end;
+        @media screen and (max-width: 370px) {
+          max-width: 174px;
+          width: 100%;
+        }
+      }
+    }
+
+    .box-sort {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      @media screen and (max-width: 650px) {
+        flex-direction: column !important;
+        @media screen and (max-width: 400px) {
+          button {
+            max-height: 36px !important;
+            max-width: 122px !important;
+            font-size: 1.2rem !important;
+          }
+          i {
+            font-size: 1.4rem;
+          }
+        }
+      }
+      .text-sortby {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-right: 20px;
+        @media screen and (max-width: 650px) {
+          margin-right: 0;
+          @media screen and (max-width: 400px) {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+          }
+        }
+      }
+      @media screen and (max-width: 370px) {
+        max-width: 122px;
+        width: 100%;
+      }
+    }
+  }
 }
 </style>
